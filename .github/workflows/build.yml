@@ -5,9 +5,9 @@ name: build
 
 on:
   push:
-    branches: [ main, 3.4.* ]
+    branches: [ main, 3.6.*, 3.5.* ]
   pull_request:
-    branches: [ main, 3.4.* ]
+    branches: [ main, 3.6.*, 3.5.* ]
 
 jobs:
   build:
@@ -15,6 +15,12 @@ jobs:
     strategy:
       matrix:
         java: [ '8', '11', '17' ]
+        branch: [ ${{ github.ref }} ]
+        exclude:
+          - branch: main
+            java: '8'
+          - branch: main
+            java: '11'
     name: Java ${{ matrix.Java }} build
     steps:
       - uses: actions/checkout@v2
